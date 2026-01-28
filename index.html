@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface Mentorat Dynamique</title>
+    <style>
+        /* Styles de base */
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { display: flex; gap: 25px; width: 95%; max-width: 1100px; flex-wrap: wrap; }
+        
+        /* Cartes */
+        .card { background: white; flex: 1; min-width: 320px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: transform 0.3s; border-top: 6px solid #4A90E2; }
+        .card-mentee { border-top-color: #50C878; }
+        h2 { margin-top: 0; color: #2c3e50; }
+        .content { flex-grow: 1; margin-bottom: 25px; color: #555; }
+        
+        /* Boutons */
+        .btn { padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.9; }
+        .btn-edit { background: #4A90E2; color: white; }
+        .btn-contact { background: #50C878; color: white; }
+        .btn-outline { background: #eee; color: #555; margin-top: 5px; }
+
+        /* Modales */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 450px; position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #999; }
+        
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; color: #444; }
+        input, select, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <h2>Votre profil</h2>
+            <div class="content">
+                <p>👤 <strong>Nom :</strong> <span id="display-name">Jean Mentor</span></p>
+                <p>💼 <strong>Expertise :</strong> <span id="display-skill">Design UI/UX</span></p>
+            </div>
+            <button class="btn btn-edit" onclick="openModal('modalMentor')">Modifier mon profil</button>
+        </div>
+
+        <div class="card card-mentee">
+            <h2>Profil du mentee</h2>
+            <div class="content">
+                <p>👤 <strong>Nom :</strong> Lucas Apprenant</p>
+                <p>🎯 <strong>Objectif :</strong> Maîtriser Figma</p>
+            </div>
+            <button class="btn btn-contact" onclick="openModal('modalMentee')">Contacter Lucas</button>
+        </div>
+    </div>
+
+    <div id="modalMentor" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modalMentor')">&times;</span>
+            <h3>Mettre à jour le profil</h3>
+            <form id="profileForm">
+                <label>Nom complet</label>
+                <input type="text" id="input-name" value="Jean Mentor">
+                
+                <label>Expertise</label>
+                <select id="input-skill">
+                    <option value="Développement Web">Développement Web</option>
+                    <option value="Design UI/UX" selected>Design UI/UX</option>
+                    <option value="Data Science">Data Science</option>
+                </select>
+
+                <button type="submit" class="btn btn-edit">Enregistrer les changements</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalMentee" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modalMentee')">&times;</span>
+            <h3>Envoyer un message</h3>
+            <textarea placeholder="Votre message pour Lucas..."></textarea>
+            <button class="btn btn-contact" onclick="sendMessage()">Envoyer ✉️</button>
+        </div>
+    </div>
+
+    <script>
+        // Fonctions d'ouverture/fermeture
+        function openModal(id) { document.getElementById(id).style.display = "flex"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+        // Mise à jour dynamique du profil
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Empêche le rechargement de la page
+
+            // Récupérer les nouvelles valeurs
+            const newName = document.getElementById('input-name').value;
+            const newSkill = document.getElementById('input-skill').value;
+
+            // Injecter les valeurs dans la page principale
+            document.getElementById('display-name').textContent = newName;
+            document.getElementById('display-skill').textContent = newSkill;
+
+            closeModal('modalMentor');
+        });
+
+        function sendMessage() {
+            alert("Message envoyé avec succès !");
+            closeModal('modalMentee');
+        }
+
+        // Fermeture au clic extérieur
+        window.onclick = function(e) {
+            if (e.target.className === 'modal') e.target.style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
