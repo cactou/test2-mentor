@@ -67,4 +67,221 @@
 
         .cartouche-center:hover {
             background-position: right center;
-            box-shadow: 0 6px 15px rgba(79, 70,
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        /* --- ZONE PRINCIPALE --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px 60px 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            max-width: 900px;
+            flex-wrap: wrap;
+        }
+
+        /* --- CARTES ET ANIMATIONS --- */
+        .card {
+            background: var(--white);
+            flex: 1;
+            min-width: 300px;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f1f5f9;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .avatar-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 20px auto;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .avatar-circle {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .role-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h2 { margin: 0 0 10px 0; font-size: 1.4rem; font-weight: 700; }
+        .skill-text { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+
+        /* --- BOUTONS --- */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--secondary); color: white; }
+        
+        .btn:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        /* --- MODALES --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #94a3b8; }
+        
+        input, select, textarea {
+            width: 100%; padding: 12px; margin: 10px 0 20px 0;
+            border: 1px solid #e2e8f0; border-radius: 8px; font-family: inherit;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-left">Arrêt sur Image</div>
+        <div class="cartouche-center">MENTORBRIDGE</div>
+        <div style="width: 100px;"></div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="card">
+                <div class="avatar-circle">👤</div>
+                <span class="role-label">Mon Espace</span>
+                <h2 id="display-name">Jean Mentor</h2>
+                <p class="skill-text">Expertise : <span id="display-skill">Design UI/UX</span></p>
+                <button class="btn btn-primary" onclick="openModal('modalMentor')">Modifier le profil</button>
+            </div>
+
+            <div class="card">
+                <div class="avatar-circle">🎓</div>
+                <span class="role-label" style="color: var(--secondary);">Accompagnement</span>
+                <h2>Lucas Apprenant</h2>
+                <p class="skill-text">Objectif : Maîtriser Figma</p>
+                <button class="btn btn-secondary" onclick="openModal('modalMentee')">Contacter</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalMentor" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modalMentor')">&times;</span>
+            <h3>Modifier votre profil</h3>
+            <form id="profileForm">
+                <label>Nom complet</label>
+                <input type="text" id="input-name" value="Jean Mentor">
+                <label>Expertise</label>
+                <select id="input-skill">
+                    <option>Design UI/UX</option>
+                    <option>Développement Web</option>
+                    <option>Data Science</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalMentee" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modalMentee')">&times;</span>
+            <h3>Envoyer un message</h3>
+            <textarea placeholder="Votre message pour Lucas..." rows="5"></textarea>
+            <button class="btn btn-secondary" onclick="sendMessage()">Envoyer le message ✉️</button>
+        </div>
+    </div>
+
+    <footer>
+        Copyright 2026 Arrêt sur Image
+    </footer>
+
+    <script>
+        function openModal(id) { document.getElementById(id).style.display = "flex"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('display-name').textContent = document.getElementById('input-name').value;
+            document.getElementById('display-skill').textContent = document.getElementById('input-skill').value;
+            closeModal('modalMentor');
+        });
+
+        function sendMessage() {
+            alert("Message transmis avec succès !");
+            closeModal('modalMentee');
+        }
+
+        window.onclick = function(e) {
+            if (e.target.className === 'modal') e.target.style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
